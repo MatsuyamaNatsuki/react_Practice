@@ -1,15 +1,33 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { ChildArea } from "./ChildArea";
 import "./styles.css";
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const onChangeText = (e) => {
+    setText(e.target.value);
+  };
+
+  const onClickOpen = () => {
+    setOpen(!open);
+  };
+
+  const onClickClose = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  const temp = useMemo(() => 1 + 3, []);
 
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <p>{count}</p>
-      <button onClick>カウントアップ</button>
+      <input value={text} onChange={onChangeText} />
+      <br />
+      <br />
+      <button onClick={onClickOpen}>表示</button>
+      {/* propsの内容はここにも必要　*/}
+      <ChildArea open={open} onClickClose={onClickClose} />
     </div>
   );
 }
